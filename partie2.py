@@ -107,6 +107,7 @@ def mouvement(plateau, i, j, joueur):
         mouvement_direction(plateau, i, j, 1, 1, joueur)
 
 
+
 """
 Retourne True s'il existe une case sur laquelle le joueur peut jouer, False sinon.
 """

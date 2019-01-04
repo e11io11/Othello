@@ -1,8 +1,7 @@
 from partie2 import *
 
-p = creer_plateau(8)
+p = creer_plateau(6)
 # On remplace les pions du joueur 2 par des pions du joueur 1
-set_case(p,3,5,1)
-set_case(p,3,6,1)
-mouvement(p,3,7,2)
+set_case(p,2,4,1)
+mouvement(p,2,5,2)
 afficher_plateau(p) # retourne 1

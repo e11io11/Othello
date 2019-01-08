@@ -48,15 +48,14 @@ def tour_jeu(partie):
         print("Au tour du joueur", partie["joueur"])
         #le joueur saisi une action.
         s = input()
-        while not saisie_valide(partie, s) or not mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"]):
+        while not saisie_valide(partie, s) and not mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"]):
             s = input()
         if s != "M":
             #Si c'est un mouvement, il est effectué.
             mouvement(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])
             return True
             #Si c'est un retour au menu, renvoie False.
-
-    return False
+        return False
 
 
 
@@ -70,13 +69,26 @@ Retourne le choix du joueur pour menu (saisie contrôlée):
 - 4 pour reprendre la partie (si une partie est en cours).
 """
 def saisir_action(partie):
+    print(70*"*"+"\n")
+    print("Choisissez une action:\n")
+    print("0 pour terminer le jeu")
+    print("1 pour commencer une nouvelle partie")
+    print("2 pour charger une partie")
+    print("3 pour sauvegarder une partie (si une partie est en cours)")
+    print("4 pour reprendre la partie (si une partie est en cours)")
+    print("\n"+70*"*")
     #Le joueur saisi une action.
     s = input()
     if partie == None:
         while s != "0" and s != "1" and s != "2":
+            if s == "3" or s == "4":
+                print("Vous n'avez aucune partie en cours, veuillez choisir une autre action:")
+            else:
+                print("Saisie invalide, réesayez:")
             s = input()
     else:
         while s != "0" and s != "1" and s != "2" and s != "3" and s != "4":
+            print("Saisie invalide, réesayez:")
             s = input()
     if s == "0":
         #Termine le jeu.
@@ -85,16 +97,15 @@ def saisir_action(partie):
         return False
     elif s == "1":
         #Crée une partie.
-        jouer(creer_partie(saisir_taille_plateau()))
+        return creer_partie(saisir_taille_plateau())
     elif s == "2":
         #Charge une partie.
-        jouer(charger_partie())
+        return charger_partie()
     elif s == "3":
         #Sauvegarde la partie.
         sauvegarder_partie(partie)
     else:
-        #Reprend la partie en cours
-        jouer(partie)
+        return partie
 
 
 
@@ -166,6 +177,15 @@ Fonction permettant de jouer à Othello. On peut enchaîner, sauvegarder, charge
 recommencer des parties d'Othello.
 """
 def othello():
-    action = saisir_action(None)
-    while action != False:
-        action = saisir_action(None)
+    partie = creer_partie(4)
+    action = saisir_action(partie)
+    a = True
+    while a:
+        while action == None:
+            action = saisir_action(partie)
+        if action == False:
+            return
+        else:
+            partie = action
+            jouer(partie)
+        action = saisir_action(partie)

@@ -30,3 +30,4 @@ print(plateau=={"n":8,
 
 
 plateau=creer_plateau(9) #renvoie une erreur
+ 

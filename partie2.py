@@ -7,10 +7,8 @@ Retourne l'entier correspondant à l'adversaire :
 Lève une erreur si joueur est différent de 1 et 2.
 """
 def pion_adverse(joueur):
-
     #Lève une erreur si joueur est différent de 1 et 2.
     assert joueur == 1 or joueur == 2, "Joueur invalide"
-
     #Retourne 2 si joueur vaut 1
     if joueur == 1 :
         return 2
@@ -126,15 +124,15 @@ def joueur_peut_jouer(plateau, joueur):
 
 
 """
-Retourne True si la partie est finie, 0 sinon.
+Retourne True si la partie est finie, False sinon.
 """
 def fin_de_partie(plateau):
     #Renvoie True si les deux joueurs ne peuvent plus jouer.
-    if not joueur_peut_jouer(plateau, 2) and not joueur_peut_jouer(plateau, 2):
+    if not joueur_peut_jouer(plateau, 2) and not joueur_peut_jouer(plateau, 1):
         return True
-    #0 sinon.
+    #False sinon.
     else:
-        return 0
+        return False
 
 
 

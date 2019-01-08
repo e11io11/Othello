@@ -40,9 +40,9 @@ print(p =={'n': 4, 'cases': [0, 0, 0, 0,
                              0, 2, 1, 0,
                              0, 1, 2, 0,
                              0, 0, 0, 0]})
-mouvement_direction(p,1,3,0,-1,2) # met la valeur 2 dans les cases (1,2) et (1,3)
+mouvement_direction(p,1,3,0,-1,2) # met la valeur 2 dans la case (1,2)
 print(p =={'n': 4, 'cases': [0, 0, 0, 0,
-                             0, 2, 2, 2,
+                             0, 2, 2, 0,
                              0, 1, 2, 0,
                              0, 0, 0, 0]})
 print("")
@@ -60,7 +60,7 @@ print(p =={'n': 4, 'cases': [0, 0, 0, 0,
                              0, 0, 0, 0]})
 mouvement(p,1,3,2) # met la valeur 2 dans les cases (1,2) et (1,3)
 print(p == {'n': 4, 'cases': [0, 0, 0, 0,
-                              0, 2, 1, 0,
+                              0, 2, 2, 2,
                               0, 1, 2, 0,
                               0, 0, 0, 0]})
 print("")

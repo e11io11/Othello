@@ -45,7 +45,7 @@ def tour_jeu(partie):
     afficher_plateau(partie["plateau"])
     #Si le joueur courant peut jouer:
     if joueur_peut_jouer(partie["plateau"], partie["joueur"]):
-        print("Au tour du joueur", partie["joueur"])
+        print("\nAu tour du joueur", partie["joueur"])
         #le joueur saisi une action.
         s = input()
         good_input = False

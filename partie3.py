@@ -22,7 +22,7 @@ La chaîne s est valide si :
 où le joueur courant peut poser son pion.
 """
 def saisie_valide(partie, s):
-    if s == "M" or len(s) == 2 and indice_valide(partie["plateau"], ord(s[0])-97) and indice_valide(partie["plateau"], int(s[1])-1):
+    if s == "M" or (len(s) == 2 and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1)):
         return True
     else:
         return False
@@ -48,8 +48,16 @@ def tour_jeu(partie):
         print("Au tour du joueur", partie["joueur"])
         #le joueur saisi une action.
         s = input()
-        while not saisie_valide(partie, s) and not mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"]):
-            s = input()
+        good_input = False
+        while not good_input:
+            if not saisie_valide(partie, s):
+                print("saisie invalide, réesayez:")
+                s = input()
+            elif s != "M" and not mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"]):
+                print("Mouvement impossible, réesayez:")
+                s = input()
+            else:
+                good_input = True
         if s != "M":
             #Si c'est un mouvement, il est effectué.
             mouvement(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])
@@ -123,7 +131,18 @@ def jouer(partie):
         else:
             #Renvoie False si un joueur souhaite retourner au menu.
             return False
-    print("La partie est terminée !\nLe joueur", gagnant(partie["plateau"]), "a gagné")
+    #system('clear')   #LINUX
+    system('cls')      #WINDOWS
+    gagnant = gagnant(partie["plateau"])
+    afficher_plateau(partie["plateau"])
+    print("")
+    print(70*"*"+"\n")
+    print("La partie est terminée !\n")
+    if gagnant == 0:
+        print("Il y a ex æquo.")
+    else:
+        print("Le joueur "+str(gagnant)+" à gagné.")
+    print("\n"+70*"*")
     #Return True lorsque la partie est terminée.
     return True
 
@@ -163,7 +182,7 @@ Retourne la partie créée.
 """
 def charger_partie():
     if os.path.exists("sauvegarde_partie.json"):
-        with open("sauvegarde_partie.json", "w") as sauvegarde:
+        with open("sauvegarde_partie.json", "r") as sauvegarde:
             return json.load(sauvegarde)
     else:
         print("Il n'y a pas de partie sauvegardée")

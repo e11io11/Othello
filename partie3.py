@@ -99,22 +99,7 @@ def saisir_action(partie):
         while s != "0" and s != "1" and s != "2" and s != "3" and s != "4":
             print("Saisie invalide, réesayez:")
             s = input()
-    if s == "0":
-        #Termine le jeu.
-        #system('clear')   #LINUX
-        system('cls')      #WINDOWS
-        return False
-    elif s == "1":
-        #Crée une partie.
-        return creer_partie(saisir_taille_plateau())
-    elif s == "2":
-        #Charge une partie.
-        return charger_partie()
-    elif s == "3":
-        #Sauvegarde la partie.
-        sauvegarder_partie(partie)
-    else:
-        return partie
+    return s
 
 
 
@@ -197,18 +182,20 @@ Fonction permettant de jouer à Othello. On peut enchaîner, sauvegarder, charge
 recommencer des parties d'Othello.
 """
 def othello():
+    partie = None
     action = saisir_action(partie)
-    a = True
-    while a:
-        while action == None:
-            action = saisir_action(partie)
-        if action == False:
-            return
+    while action != "0":
+        if action == "1":
+            partie = creer_partie(saisir_taille_plateau())
+            jouer(partie)
+        elif action == "2":
+            partie = charger_partie()
+            jouer(partie)
+        elif action == "3":
+            sauvegarder_partie(partie)
         else:
-            partie = action
             jouer(partie)
         action = saisir_action(partie)
-
-
-def otehllobis():
-    par
+    #Termine le jeu.
+    #system('clear')   #LINUX
+    system('cls')      #WINDOWS

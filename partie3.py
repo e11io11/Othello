@@ -119,15 +119,15 @@ def jouer(partie):
             return False
     #system('clear')   #LINUX
     system('cls')      #WINDOWS
-    gagnant = gagnant(partie["plateau"])
+    winner = gagnant(partie["plateau"])
     afficher_plateau(partie["plateau"])
     print("")
     print(70*"*"+"\n")
     print("La partie est terminée !\n")
-    if gagnant == 0:
+    if winner == 0:
         print("Il y a ex æquo.")
     else:
-        print("Le joueur "+str(gagnant)+" à gagné.")
+        print("Le joueur "+str(winner)+" à gagné.")
     print("\n"+70*"*")
     #Return True lorsque la partie est terminée.
     return True

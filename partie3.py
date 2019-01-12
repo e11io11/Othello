@@ -22,6 +22,7 @@ La chaîne s est valide si :
 où le joueur courant peut poser son pion.
 """
 def saisie_valide(partie, s):
+    #Verifie si s=M ou s correspond aux coordonées
     if s == "M" or (len(s) == 2 and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1)):
         return True
     else:
@@ -196,7 +197,6 @@ Fonction permettant de jouer à Othello. On peut enchaîner, sauvegarder, charge
 recommencer des parties d'Othello.
 """
 def othello():
-    partie = creer_partie(4)
     action = saisir_action(partie)
     a = True
     while a:
@@ -208,3 +208,7 @@ def othello():
             partie = action
             jouer(partie)
         action = saisir_action(partie)
+
+
+def otehllobis():
+    par

@@ -145,10 +145,9 @@ def saisir_taille_plateau():
     #Verifie si la taille est valide.
     while s != "4" and s != "6" and s != "8":
         print("Taille invalide, réesayez:")
-        s = int(input())
+        s = input()
     #Renvoie la taille.
-    return s
-
+    return int(s)
 
 
 
@@ -194,11 +193,11 @@ def othello():
     while action != "0":
         #Effectue les actions correspondantes.
         if action == "1":
-            #Crée une nouvelle partie
+            #Crée une nouvelle partie.
             partie = creer_partie(saisir_taille_plateau())
             jouer(partie)
         elif action == "2":
-            #Charge une partie
+            #Charge une partie.
             partie = charger_partie()
             jouer(partie)
         elif action == "3":

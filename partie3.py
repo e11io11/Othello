@@ -60,8 +60,10 @@ def tour_jeu(partie):
             mouvement(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])
             return True
         #Si c'est un retour au menu, renvoie False.
-        return False
-
+        else:
+            return False
+    #Return True si le joueur ne peut pas joeur.
+    return True
 
 
 

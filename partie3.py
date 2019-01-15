@@ -23,8 +23,9 @@ La chaîne s est valide si :
 où le joueur courant peut poser son pion.
 """
 def saisie_valide(partie, s):
-    #Verifie si s=M ou s correspond aux coordonées
-    if s == "M" or (len(s) == 2 and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1)):
+    #Verifie si s=M ou si s correspond aux coordonées d'une case valide.
+    #ord(s[0])-97 = i et int(s[1])-1)) = j
+    if s == "M" or (len(s) == 2 and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1) and mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])):
         return True
     else:
         return False
@@ -50,21 +51,15 @@ def tour_jeu(partie):
         print("\nAu tour du joueur", partie["joueur"])
         #le joueur saisi une action.
         s = input()
-        good_input = False
-        while not good_input:
-            if not saisie_valide(partie, s):
-                print("saisie invalide, réesayez:")
-                s = input()
-            elif s != "M" and not mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"]):
-                print("Mouvement impossible, réesayez:")
-                s = input()
-            else:
-                good_input = True
+        #Verifie si l'input correspond a M ou aux coordonées un mouvement valide.
+        while not saisie_valide(partie, s):
+            print("Saisie invalide, réesayez:")
+            s = input()
         if s != "M":
-            #Si c'est un mouvement, il est effectué.
+            #Si c'est un mouvement, il est effectué et True est renvoyé.
             mouvement(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])
             return True
-            #Si c'est un retour au menu, renvoie False.
+        #Si c'est un retour au menu, renvoie False.
         return False
 
 
@@ -89,6 +84,8 @@ def saisir_action(partie):
     print("\n"+70*"*")
     #Le joueur saisi une action.
     s = input()
+    #Teste si la saisie est correcte
+    #Si il n'y a aucune partie en cours on ne peut pas sauvegarder(3) ni reprendre de partie(4). Il ne paut donc faire que 0,1 et 2.
     if partie == None:
         while s != "0" and s != "1" and s != "2":
             if s == "3" or s == "4":
@@ -96,10 +93,12 @@ def saisir_action(partie):
             else:
                 print("Saisie invalide, réesayez:")
             s = input()
+    #Si il y a une partie en cours il peut faire toutes les actions de 0 à 4.
     else:
         while s != "0" and s != "1" and s != "2" and s != "3" and s != "4":
             print("Saisie invalide, réesayez:")
             s = input()
+    #Renvoie l'action saisie.
     return s
 
 
@@ -112,12 +111,13 @@ Retourne True si la partie est terminée, False sinon.
 def jouer(partie):
     #Tant que la partie n'est pas terminée.
     while not fin_de_partie(partie["plateau"]):
-        #Les joueurs jouent chacun leur tour.
         if tour_jeu(partie):
+            #Si le joueur effectue un tour, on passe au joueur suivant.
             partie["joueur"] = pion_adverse(partie["joueur"])
         else:
             #Renvoie False si un joueur souhaite retourner au menu.
             return False
+    #Si la partie est terminée, efface le terminal puis affiche le gagnant.
     #system('clear')   #LINUX
     system('cls')      #WINDOWS
     winner = gagnant(partie["plateau"])
@@ -130,7 +130,7 @@ def jouer(partie):
     else:
         print("Le joueur "+str(winner)+" à gagné.")
     print("\n"+70*"*")
-    #Return True lorsque la partie est terminée.
+    #Et enfin renvoie True.
     return True
 
 
@@ -141,10 +141,12 @@ Fait saisir un nombre parmi 4,6 ou 8 (saisie contrôlée).
 """
 def saisir_taille_plateau():
     print("Veuillez saisir une taille de plateau (4, 6 ou 8).")
-    s = int(input())
-    while s != 4 and s != 6 and s != 8:
+    s = input()
+    #Verifie si la taille est valide.
+    while s != "4" and s != "6" and s != "8":
         print("Taille invalide, réesayez:")
         s = int(input())
+    #Renvoie la taille.
     return s
 
 
@@ -169,9 +171,11 @@ Retourne la partie créée.
 """
 def charger_partie():
     if os.path.exists("sauvegarde_partie.json"):
+        #Charge la partie si elle existe.
         with open("sauvegarde_partie.json", "r") as sauvegarde:
             return json.load(sauvegarde)
     else:
+        #Sinon crée une nouvelle partie.
         print("Il n'y a pas de partie sauvegardée")
         return creer_partie(saisir_taille_plateau())
 
@@ -184,19 +188,27 @@ recommencer des parties d'Othello.
 """
 def othello():
     partie = None
+    #Le joueur saisie une action.
     action = saisir_action(partie)
+    #Tant que l'action n'est pas "terminer le jeu"(0):
     while action != "0":
+        #Effectue les actions correspondantes.
         if action == "1":
+            #Crée une nouvelle partie
             partie = creer_partie(saisir_taille_plateau())
             jouer(partie)
         elif action == "2":
+            #Charge une partie
             partie = charger_partie()
             jouer(partie)
         elif action == "3":
+            #Sauvegarde la partie.
             sauvegarder_partie(partie)
         else:
+            #Reprend la partie.
             jouer(partie)
+        #Une fois l'action effectuée, le joueur en resaisie une autre.
         action = saisir_action(partie)
-    #Termine le jeu.
+    #Efface le terminal si le joueur decide d'arreter le jeu.
     #system('clear')   #LINUX
     system('cls')      #WINDOWS

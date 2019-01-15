@@ -23,9 +23,9 @@ La chaîne s est valide si :
 où le joueur courant peut poser son pion.
 """
 def saisie_valide(partie, s):
-    #Verifie si s=M ou si s correspond aux coordonées d'une case valide.
+    #Verifie si s=M ou si s correspond aux coordonées d'une case valide et permet un mouvement valide.
     #ord(s[0])-97 = i et int(s[1])-1)) = j
-    if s == "M" or (len(s) == 2 and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1) and mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])):
+    if s == "M" or (len(s) == 2 and s[0] >= "a" and s[0] <= "h"  and s[1] >= "1" and s[1] <= "8" and case_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1) and mouvement_valide(partie["plateau"], ord(s[0])-97, int(s[1])-1, partie["joueur"])):
         return True
     else:
         return False

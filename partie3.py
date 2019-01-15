@@ -1,5 +1,6 @@
 from partie2 import *
 from os import system
+import os
 import json
 
 """

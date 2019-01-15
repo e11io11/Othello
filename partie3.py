@@ -62,7 +62,7 @@ def tour_jeu(partie):
         #Si c'est un retour au menu, renvoie False.
         else:
             return False
-    #Return True si le joueur ne peut pas joeur.
+    #Return True si le joueur ne peut pas jouer.
     return True
 
 
